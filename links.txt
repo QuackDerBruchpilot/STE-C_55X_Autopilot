@@ -1,0 +1,9 @@
+https://genesys-aerosystems.com/sites/default/files/GenesysAerosystems_S-TEC_55X_no_bleeds_rev02.pdf
+
+https://genesys-aerosystems.com/sites/default/files/files/System%20Fifty%20Five%20X_%20pdf(1).pdf
+
+https://1-sim.com/files/SASL3Manual.pdf
+
+https://www.siminnovations.com/xplane/dataref/?name=&type=&writable=&units=&description=&submit=Search
+
+https://www.siminnovations.com/xplane/command/?name=&description=autopilot&submit=Search
