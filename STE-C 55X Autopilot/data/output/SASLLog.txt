@@ -1,0 +1,10 @@
+[S-TEC 55X AUTOPILOT INFO]: Initializing...
+[S-TEC 55X AUTOPILOT INFO]: [DISPLAY] Main Screen Bounds: 0, 0, 1280, 720
+[S-TEC 55X AUTOPILOT INFO]: Path to module: X:\SteamLibrary/steamapps/common/X-Plane 11/Resources/plugins/SASLFree/data/modules/main.lua
+[S-TEC 55X AUTOPILOT INFO]: Loading module...
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	module
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	autopilot
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	preprocessor.lua
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	preprocessor.lua
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	rectangle
+[S-TEC 55X AUTOPILOT INFO]: Module loaded
