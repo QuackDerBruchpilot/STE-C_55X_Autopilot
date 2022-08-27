@@ -40,12 +40,11 @@ components = {
 	autopilot {},
 }
 
-
-apWindow = contextWindow {				-- create new Window
+apWindow = contextWindow {				-- create new window
 
 	name = "STE-C 55X Autopilot";				-- title of window
 	position = {0, 0, 783, 202};				-- spawning position and size of window
-	visible = true;							-- visible on load
+	visible = false;							-- visible on load
 	gravity = {0, 1, 0, 1};						-- no changes when XPWindow changes
 	noResize = true;							-- no Resizing allowed
 	noDecore = true;							-- no Decore
