@@ -16,6 +16,18 @@ Copyright (C) 2022 Luka Emanuel Nöckel
     	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 You can contact me via E-MAIL: quackderbruchpilot05@gmail.com, via GitHub (QuackDerBruchpilot) or the X-Plane.org forum (@flightsimmer1710)
+
+	ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE TERMS OF THE COPYRIGHT NOTICE.
+	The current software uses the SASL library. Redistribution in source and binary forms, with 
+	or without modification, are not permitted.
+
+	Copyright (c) 2020, 1-sim.aero
+	All rights reserved.
+
+	SASL copyright holders are not responsible in any event for malfunction, unavailability, 
+	incompatibility or other problems that might occur while using the end product which uses 
+	SASL in conjunction with any other software. SASL copyright holders are not liable for any 
+	properties for any end product which uses SASL.
 ]]--
 
 sasl.options.setAircraftPanelRendering(false)
