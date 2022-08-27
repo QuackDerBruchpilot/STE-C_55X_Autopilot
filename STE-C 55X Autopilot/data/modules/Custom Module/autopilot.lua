@@ -7,13 +7,13 @@ Copyright (C) 2022 Luka Emanuel Nöckel
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 
-    	This program is distributed in the hope that it will be useful,
-    	but WITHOUT ANY WARRANTY; without even the implied warranty of
-   	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    	GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-    	You should have received a copy of the GNU General Public License
-    	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+   	You should have received a copy of the GNU General Public License
+   	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 You can contact me via E-MAIL: quackderbruchpilot05@gmail.com, via GitHub (QuackDerBruchpilot) or the X-Plane.org forum (@flightsimmer1710)
 
@@ -72,10 +72,28 @@ include("preprocessor.lua")
 
 set(globalProperty("sim/cockpit/autopilot/autopilot_mode"), 0)									-- make sure all autopilot modes are off when we start our own autopilot
 
+function shutdown()																				-- building shutdown procedure if we need to turn of the AP
+	sasl.commandOnce(ServosOff)													-- turn off all servos (disables AP in XPlane logic)
+	include("preprocessor.lua")													-- re-run the "PreProcessor"
+	done = true																	-- return that we successfully shut down the AP system
+end
+
+disengager = sasl.createCommand ("STE-C/AP_disengage","Disengage the Autopilot")				-- create new command for disengaging the AP
+sasl.registerCommandHandler(disengager, 0, shutdown)											-- and tell SASL/XPlane what to do with it
+
+
+
+
+
 function onMouseDown(window, x, y, button, parentX, parentY)									-- what should be done if we press the mouse button?
 	if get(batt_on) == 1 then																	-- check if battery is on
 	
 		if button == MB_LEFT then															-- check if we use LEFT mouse button
+			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			if 59 <= x and x <= 182 and 174 <= y and y <= 188 then					--
+				shutdown()															-- autopilot disengage button
+				return 1															--
+			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			if 49 <= x and x <= 101 and 38 <= y and y <= 69 then					--
 																					--
@@ -192,12 +210,6 @@ end
 
 
 
-
-function shutdown()																				-- shutdown procedure if we need to turn of the AP
-	sasl.commandOnce(ServosOff)													-- turn off all servos (disables AP in XPlane logic)
-	include("preprocessor.lua")													-- re-run the "PreProcessor"
-	done = true																	-- return that we successfully shut down the AP system
-end
 	
 function update()																				-- things done every frame
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
