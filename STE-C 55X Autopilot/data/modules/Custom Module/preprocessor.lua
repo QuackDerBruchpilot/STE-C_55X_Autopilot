@@ -32,7 +32,7 @@ You can contact me via E-MAIL: quackderbruchpilot05@gmail.com, via GitHub (Quack
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 sasl.logInfo("Preprocessor active, reloading...")
 
-sasl.logInfo("STE-C 55X Autopilot Plugin Copyright (C) 2022 Luka Emanuel Nöckel")
+sasl.logInfo("STE-C 55X Autopilot Plugin - Copyright (C) 2022 Luka Emanuel Nöckel")
 sasl.logInfo("This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; for details open the License file in the plugin's directory.")
 
 apHDG = false
@@ -54,7 +54,7 @@ VSrate = 0
 s = false
 i = false
 
-done = false
+done = true
 NavCount = 0
 GPSS_override = false
 
