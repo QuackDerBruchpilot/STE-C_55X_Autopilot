@@ -9,7 +9,7 @@ Copyright (C) 2022 Luka Emanuel Nöckel
 
     	This program is distributed in the hope that it will be useful,
     	but WITHOUT ANY WARRANTY; without even the implied warranty of
-   	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     	GNU General Public License for more details.
 
     	You should have received a copy of the GNU General Public License
@@ -30,7 +30,7 @@ You can contact me via E-MAIL: quackderbruchpilot05@gmail.com, via GitHub (Quack
 	properties for any end product which uses SASL.
 ]]--
 
-sasl.options.setAircraftPanelRendering(false)
+sasl.options.setAircraftPanelRendering(false) 
 sasl.options.set3DRendering(false)
 sasl.options.setRenderingMode2D(SASL_RENDER_2D_DEFAULT)
 sasl.options.setInteractivity(true)
@@ -38,7 +38,10 @@ sasl.options.setInteractivity(true)
 
 components = {
 	autopilot {},
+	settings {},
 }
+
+--------------------------------------------------------------------------------------------------- apWindow
 
 apWindow = contextWindow {				-- create new window
 
@@ -56,9 +59,34 @@ apWindow = contextWindow {				-- create new window
 	};
 }
 
-function show_hide()					-- handle to set/unset window visible whenever we want
+function show_hide_ap()					-- handle to set/unset window visible whenever we want
 	apWindow:setIsVisible(not apWindow:isVisible())
 end
+
+--------------------------------------------------------------------------------------------------- settings window
+
+settings_Window = contextWindow {		-- create new window
+
+	name = "STE-C 55X Autopilot - Settings";	-- title of window
+	position = {100, 150, 400, 300};			-- spawning position and size of window
+	visible = false;							-- visible on load
+	gravity = {0, 1, 0, 1};						-- no changes when XPWindow changes
+	noResize = true;							-- no resizing allowed
+	noDecore = false;							-- window has decore
+	
+	components = {
+		settings {								-- content of window
+			position = {0, 0, 400, 300};
+		};
+	};
+}
+
+
+function show_hide_set()				-- handle to set/unset window visible whenever we want
+	settings_Window:setIsVisible(not settings_Window:isVisible())
+end
+
+--------------------------------------------------------------------------------------------------------------------------------- configuring menu
 
 menu_master	= sasl.appendMenuItem (				--
 	PLUGINS_MENU_ID, "STE-C 55X Autopilot"		-- add new Item to plugin menu list
@@ -68,7 +96,24 @@ menu_main	= sasl.createMenu (					--
 	"", PLUGINS_MENU_ID, menu_master			-- add menu to our entry in plugin menu list
 )												--
 
-menu_option	= sasl.appendMenuItem(				--
-	menu_main, "show/hide", show_hide			-- add option to our plugin menu Item (show/hide AP device)
+menu_ap	= sasl.appendMenuItem (					--
+	menu_main, "show/hide", show_hide_ap		-- add option to our plugin menu Item (show/hide AP device)
 )												--
+
+menu_settings = sasl.appendMenuItem (			--
+	menu_main, "settings", show_hide_set		-- add option to our plugin menu Item (show settings)
+)												--
+
+--------------------------------------------------------------------------------------------------------------------------------- include settings from config
+
+addSearchPath(moduleDirectory.."/Custom Module/")				--
+include("config")												--
+																-- load config file and apply them
+if AP_wnd_on_startup then										--
+	apWindow:setIsVisible(true)									--
+end																--
+
+if first_launch then											--
+	settings_Window:setIsVisible(true)							-- open settings Window on first launch
+end																--
 
