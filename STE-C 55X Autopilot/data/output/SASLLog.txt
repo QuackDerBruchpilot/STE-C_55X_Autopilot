@@ -1,10 +1,26 @@
 [S-TEC 55X AUTOPILOT INFO]: Initializing...
-[S-TEC 55X AUTOPILOT INFO]: [DISPLAY] Main Screen Bounds: 0, 0, 1280, 720
-[S-TEC 55X AUTOPILOT INFO]: Path to module: X:\SteamLibrary/steamapps/common/X-Plane 11/Resources/plugins/SASLFree/data/modules/main.lua
+[S-TEC 55X AUTOPILOT INFO]: [DISPLAY] Main Screen Bounds: 0, 0, 1920, 1017
+[S-TEC 55X AUTOPILOT INFO]: Path to module: X:\SteamLibrary/steamapps/common/X-Plane 11/Resources/plugins/STE-C 55X Autopilot/data/modules/main.lua
 [S-TEC 55X AUTOPILOT INFO]: Loading module...
 [S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	module
 [S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	autopilot
 [S-TEC 55X AUTOPILOT INFO]: [LUA]: including	preprocessor.lua
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: Preprocessor active, reloading...
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: STE-C 55X Autopilot Plugin - Copyright (C) 2022 Luka Emanuel Nöckel
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; for details open the License file in the plugin's directory.
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	config.lua
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	settings
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	config
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: settings window loaded
 [S-TEC 55X AUTOPILOT INFO]: [LUA]: including	preprocessor.lua
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: Preprocessor active, reloading...
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: STE-C 55X Autopilot Plugin - Copyright (C) 2022 Luka Emanuel Nöckel
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; for details open the License file in the plugin's directory.
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	config.lua
 [S-TEC 55X AUTOPILOT INFO]: [LUA]: loading	rectangle
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	config
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: settings window loaded
+[S-TEC 55X AUTOPILOT INFO]: [LUA]: including	config
 [S-TEC 55X AUTOPILOT INFO]: Module loaded
+[S-TEC 55X AUTOPILOT INFO]: Disabling...
+[S-TEC 55X AUTOPILOT INFO]: SASL plugin stopped...

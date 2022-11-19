@@ -116,4 +116,3 @@ end																--
 if first_launch then											--
 	settings_Window:setIsVisible(true)							-- open settings Window on first launch
 end																--
-

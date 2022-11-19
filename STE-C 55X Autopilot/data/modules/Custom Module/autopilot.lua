@@ -48,6 +48,7 @@ sel_altitude = globalProperty("sim/cockpit/autopilot/altitude")
 batt_on = globalProperty("sim/cockpit/electrical/battery_on")
 gpss = globalProperty("sim/cockpit2/autopilot/heading_is_gpss")
 gpss_status = globalProperty("sim/cockpit2/autopilot/gpss_status")
+pitch_mistr = globalProperty("sim/cockpit2/autopilot/pitch_mistrim")
 
 HDG = sasl.findCommand("sim/autopilot/heading")
 NAV = sasl.findCommand("sim/autopilot/NAV")
@@ -65,6 +66,7 @@ WingLVL = sasl.findCommand("sim/autopilot/wing_leveler")
 ----- run the Preprocessor -----
 --------------------------------
 include("preprocessor.lua")
+include("config.lua")
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------ Code -------------------------------------------------------------------------------------------------
@@ -92,6 +94,9 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			if 59 <= x and x <= 182 and 174 <= y and y <= 188 then					--
 				shutdown()															-- autopilot disengage button
+				NavCount = 0														--
+																					--
+				logInfo("[STE-C 55X AP] AP disengaged")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -99,6 +104,8 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 																					--
 				sasl.commandOnce(HDG)												-- activate HEADING mode
 				NavCount = 0														--
+																					--
+				logInfo("[STE-C 55X AP] HDG pressed")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------																		
@@ -117,13 +124,16 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 					NavCount = 1													--
 				end																	--
 																					--
+				logInfo("[STE-C 55X AP] NAV pressed")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			if 257 <= x and x <= 309 and 38 <= y and y <= 69 then					--
 																					--
-				sasl.commandOnce(APR)												-- enable APR mode
+				sasl.commandOnce(APR)												--
 				NavCount = 0														--
+																					--
+				logInfo("[STE-C 55X AP] APR pressed")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,6 +141,8 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 																					--
 				sasl.commandOnce(REV)												-- enable REV mode
 				NavCount = 0														--
+																					--
+				logInfo("[STE-C 55X AP] REV pressed")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -144,6 +156,7 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 					Altmax = AltSEL + 360											--
 				end																	--
 																					--
+				logInfo("[STE-C 55X AP] ALT pressed")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -159,12 +172,13 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 					VSmax = VSrate + 1600											--
 				end																	--
 																					--
+				logInfo("[STE-C 55X AP] VS pressed")								--
 				return 1															--
 			end																		--
 			----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			if 648 <= x and x <= 670 and 38 <= y and y <= 69 then					--
 																					--
-				if get(vvi_status) == 2 then										--
+				if get(vvi_status) == 2 then										-- the negative way
 																					--
 					if VSrate > VSmin then											--
 						sasl.commandOnce(VSdn)										-- change VS if active
@@ -179,7 +193,8 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 						set(sel_altitude, AltSEL)									--
 					end																-- 
 				end																	--
-																					-- and the negative way
+																					--
+				logInfo("[STE-C 55X AP] VS left pressed")							--
 				return 1															--
 			end																		--
 																					--
@@ -201,6 +216,7 @@ function onMouseDown(window, x, y, button, parentX, parentY)									-- what sho
 					end																--
 				end																	--
 																					--
+				logInfo("[STE-C 55X AP] VS right pressed")							--
 				return 1															--
 			end																		--
 		end
@@ -210,7 +226,7 @@ end
 
 
 
-	
+
 function update()																				-- things done every frame
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	if get(batt_on) == 0 and not done then										-- 
@@ -260,14 +276,14 @@ function update()																				-- things done every frame
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	if sasl.getGPSDestination() == -1 and NavCount == 2 then					--
 		anGPSS = true															--
-		sasl.commandOnce(WingLVL)												-- for flashin "GPSS" and "NAV" announciation if GPSS is active but the GPS doesn't provide any data
-		if not i then															--
-			i = math.floor(os.clock())											--
+		sasl.commandOnce(WingLVL)												-- for flashing "GPSS" and "NAV" announciation if GPSS is active but the GPS doesn't provide any data
+		if not k then															--
+			k = math.floor(os.clock())											--
 		end																		--
 																				--
-		if i + 1 == math.floor(os.clock()) then									-- flashing frequency will be 1 sec on, 1 sec off, ...
+		if k + 1 == math.floor(os.clock()) then									-- flashing frequency will be 1 sec on, 1 sec off, ...
 			GPSS_override = not GPSS_override									--
-			i = math.floor(os.clock())											--
+			k = math.floor(os.clock())											--
 		end																		--
 	else																		--
 		if NavCount == 2 and get(gpss_status) == 0 then							--
@@ -276,20 +292,118 @@ function update()																				-- things done every frame
 																				--
 		GPSS_override = true													--
 		anGPSS = false															--
-		i = false																--
-	end																			--
+		k = false																--
+	end 																		--
 	------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	if get(trimUP) == 1 then													--
-		anUP = true																--
-	else																		--
-		anUP = false															--
-	end																			--
-																				-- if AP is trimming we want to know so here we go
-	if get(trimDN) == 1 then													--
-		anDN = true																--
-	else																		--
-		anDN = false															--
-	end																			--
+	if pitchMode then
+	
+		if has_elecTrim then		-- if a/c is equipped with elec_trim - then the AP has a direct connection to the trim
+				
+			if get(trimUP) == 1 then																-- if trim goes up then display trim up annunciator														
+																									--
+				if not z then								--										--																				
+					z = math.floor(os.clock())				-- start timer							--																						
+				end											--										--																								
+															--										--																
+				if z + 3 <= math.floor(os.clock()) then		-- count 3 secs							-- i = time the TrimUP annunciator is already on																						
+					if not x then 								--									--																					
+						x = math.floor(os.clock())				--									--																				
+					end											-- 									--																					
+																-- after that start flashing		--																				
+					if x + 1 == math.floor(os.clock()) then		--									--																				
+						anUP = not anUP							--									-- x = intervall of flashing																						
+						x = math.floor(os.clock())				--									--																				
+					end										-- 										--
+				else										--										--
+					anUP = true								--										--
+				end											--										--																				
+																									--																				
+			else																					--	else not																	
+				anUP = false																		--
+				z = false																			--
+				x = false																			--
+			end																						-- 																				
+																									
+			if get(trimDN) == 1 then																-- if trim goes down then display trim down annunciator
+																									--
+				if not t then								--										--
+					t = math.floor(os.clock())				-- start timer							--
+				end											--										--
+															--										--
+				if t + 3 <= math.floor(os.clock()) then		-- count 3 secs							-- t = time the TrimDN annunciator is already on
+					if not y then 								--									--
+						y = math.floor(os.clock())				--									--
+					end											-- 									--
+																-- after that start flashing		--
+					if y + 1 == math.floor(os.clock()) then		--									-- y = intervall of flashing
+						anDN = not anDN							--									--
+						y = math.floor(os.clock())			--										--
+					end										-- 										--
+				else										--										--
+					anDN = true								--										--
+				end											--										--
+																									--
+			else																					-- else not
+				anDN = false																		--
+				t = false																			--
+				y = false																			--
+			end																						--
+			
+		else
+		
+			if get(pitch_mistr) == 1 then															-- if the AP wants us to trim UP we have to do that
+																									--
+				if not t then 								--										--
+					t = math.floor(os.clock())				-- start timer							--
+				end											--										--
+															--										--
+				if t + 3 <= math.floor(os.clock()) then		-- count 3 secs							-- t = time the TrimDN annunciator is already on
+					if not y then 								--									--
+						y = math.floor(os.clock())				--									--
+					end											-- 									--
+																-- after that start flashing		--
+					if y + 1 == math.floor(os.clock()) then		--									-- y = intervall of flashing
+						anUP = not anUP							--									--
+						y = math.floor(os.clock())			--										--
+					end										-- 										--
+				else										--										--
+					anUP = true								--										--
+				end											--										--
+																									--
+			else 																					--
+				anUP = false																		--
+				t = false																			--
+				y = false																			--
+			end																						--
+			
+			if get(pitch_mistr) == -1 then															-- if the AP wants us to trim DN we have to do that
+																									--
+				if not z then 								--										--
+					z = math.floor(os.clock())				-- start timer							--
+				end											--										--
+															--										--
+				if z + 3 <= math.floor(os.clock()) then		-- count 3 secs							-- z = time the TrimDN annunciator is already on
+					if not x then 								--									--
+						x = math.floor(os.clock())				--									--
+					end											-- 									--
+																-- after that start flashing		--
+					if x + 1 == math.floor(os.clock()) then		--									-- x = intervall of flashing
+						anDN = not anDN							--									--
+						x = math.floor(os.clock())			--										--
+					end										-- 										--
+				else										--										--
+					anDN = true								--										--
+				end											--										--
+																									--
+			else 																					--
+				anDN = false																		--
+				z = false																			--
+				x = false																			--
+			end																						--
+		end
+		
+		-- at this place we could add a function handling the event of pressing the trim switch on the yoke, but we do not have datarefs for that so we have to live without that for the moment		
+	end
 end
 
 
@@ -321,6 +435,7 @@ function draw()																					-- draw stuff
 	if get(batt_on) == 1 then
 	
 		rollMode = false
+		pitchMode = false
 		--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		if apHDG or get(heading_mode) == 1 then												--
 			text(50, 130, "HDG", 25)														-- HDG announciator
@@ -352,6 +467,7 @@ function draw()																					-- draw stuff
 			text(235, 130, "APR", 25)														-- APR announciator
 																							--
 			rollMode = true																	--
+			pitchMode = true																--
 		end																					--
 		--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		if an_FAIL then																		--														--
@@ -400,6 +516,7 @@ function draw()																					-- draw stuff
 			text(515, 130, "ALT", 25)														-- ALT announciator
 																							--
 			altANN = true																	--
+			pitchMode = true																--
 		end																					--
 		--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		if GS_override then																	--
@@ -415,6 +532,7 @@ function draw()																					-- draw stuff
 				text(615, 130, "VS", 25)													-- VS announciator
 																							--
 				vsANN = true																--
+				pitchMode = true															--
 			end																				--
 		end																					--
 																							--

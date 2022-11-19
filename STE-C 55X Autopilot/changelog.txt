@@ -1,9 +1,16 @@
 #######################################################################################################################################################################################################
 																				STE-C 55X Autopilot Plugin	-	Changelog
 #######################################################################################################################################################################################################
+v0.5.1-beta (current)
+-----------------------------------------------------------
+-	investigated 'turnoff on CDI change' using the GTN
+	-> see manual 'Quicktipp/FAQ' section for help
 
+-	added trim annunciation as described in POH
+	-> DISCLAIMER: Yoke trimswitch being ignored due to XPlane limitation
+	-> also see settings to for new option according to this
 
-v0.5.0-beta (current)
+v0.5.0-beta
 -----------------------------------------------------------
 -	added settings tab
 		-	you can now select whether you want to start with or without the AP showing up

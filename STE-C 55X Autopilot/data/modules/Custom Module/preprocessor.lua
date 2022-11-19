@@ -50,9 +50,15 @@ anGPSS = false
 vsANN = false
 altANN = false
 rollMode = false
+pitchMode = false
 VSrate = 0
 s = false
 i = false
+k = false
+t = false
+x = false
+y = false
+z = false
 
 done = true
 NavCount = 0

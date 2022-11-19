@@ -33,7 +33,6 @@ You can contact me via E-MAIL: quackderbruchpilot05@gmail.com, via GitHub (Quack
 addSearchPath(moduleDirectory.."/Custom Module/")												-- loading settings
 include("config")																				--
 
-
 btn_save_color  = {0.153, 0.204, 0.255}										-- standard save button color
 btn_licenses_color = {0.153, 0.204, 0.255}									-- standard licences button color
 btn_changelog_color = {0.153, 0.204, 0.255}									-- standard licences button color
@@ -53,15 +52,23 @@ function onMouseDown(window, x, y, button, parentX, parentY)							-- mouse clic
 			return 1
 		end
 		
-		if 323 <= x and x <= 383 and 124 <= y and y <= 144 then								-- save button
+		if 3 <= x and x <= 23 and 123 <= y and y <= 143 then								-- checkbox 2
+			has_elecTrim = not has_elecTrim														-- switch state for has_elecTrim
+			
+			return 1
+		end
+		
+		if 323 <= x and x <= 383 and 100 <= y and y <= 124 then								-- save button
 		
 			btn_save_color = {0.204, 0.229, 0.255}
 			
 			local settings = io.open(moduleDirectory.."/Custom Module/config.lua", "w+")		-- load config file
 			io.output(settings)																	--
-			io.write("first_launch = false\n")													--
+			io.write("first_launch = false\n")													-- save that we already saw the settings window once
 			
-			io.write("AP_wnd_on_startup = "..tostring(AP_wnd_on_startup).."\n")					-- save stuff
+			io.write("AP_wnd_on_startup = "..tostring(AP_wnd_on_startup).."\n")					-- save AP_wnd_on_startup
+			
+			io.write("has_elecTrim = ".. tostring(has_elecTrim).."\n")							-- save has_elecTrim setting
 			io.close(settings)																	-- close file
 			
 			return 1
@@ -109,7 +116,7 @@ end
 
 function onMouseUp(window, x, y, button, parentX, parentY)								-- mouse release event handler
 	if button == MB_LEFT then
-		if 323 <= x and x <= 383 and 124 <= y and y <= 144 then							
+		if 323 <= x and x <= 383 and 100 <= y and y <= 124 then							
 			btn_save_color = {0.153, 0.204, 0.255}											-- change color of save button back to standard
 			return 1
 		end
@@ -132,11 +139,17 @@ end
 
 function update()																		-- things we have to do every cycle
 
-	if AP_wnd_on_startup then 																-- Decide if Checkbox should be checked or not
-		chk_AP_wnd_on_startup = sasl.gl.loadImage("icons8-checked-checkbox-20.png")
-	else
-		chk_AP_wnd_on_startup = sasl.gl.loadImage("icons8-unchecked-checkbox-20.png")
-	end
+	if AP_wnd_on_startup then 																-- Decide if Checkboxes should be checked or not
+		chk_AP_wnd_on_startup = sasl.gl.loadImage("icons8-checked-checkbox-20.png")			--
+	else																					--
+		chk_AP_wnd_on_startup = sasl.gl.loadImage("icons8-unchecked-checkbox-20.png")		--
+	end																						--
+	
+	if has_elecTrim then																	--
+		chk_has_elecTrim = sasl.gl.loadImage("icons8-checked-checkbox-20.png")				--
+	else																					--
+		chk_has_elecTrim = sasl.gl.loadImage("icons8-unchecked-checkbox-20.png")			--
+	end																						--
 end
 
 
@@ -170,11 +183,14 @@ function draw()																			-- draw things into the settings window
 	
 	text(3, 170, "Settings:")														-- settings section
 	
-		sasl.gl.drawTexture(chk_AP_wnd_on_startup, 3, 143, 20, 20)								-- draw checkbox
+		sasl.gl.drawTexture(chk_AP_wnd_on_startup, 3, 143, 20, 20)								-- draw checkbox for AP_wnd_on_startup
 		text(35, 150, "open autopilot window on startup")										-- text for checkbox
 		
-	sasl.gl.drawRectangle(323, 124, 60, 20, btn_save_color)										-- Save button
-	text(340, 130, "Save")																		--
+		sasl.gl.drawTexture(chk_has_elecTrim, 3, 123, 20, 20)									-- for has_elecTrim
+		text(35, 130, "connect autopilot with electric trim")									--
+		
+	sasl.gl.drawRectangle(323, 100, 60, 20, btn_save_color)										-- Save button
+	text(340, 106, "Save")																		--
 	
 	sasl.gl.drawRectangle(50, 20, 80, 30, btn_licenses_color)									-- licences button
 	text(56, 32, "see licences")																--

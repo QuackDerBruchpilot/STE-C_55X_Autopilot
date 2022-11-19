@@ -33,7 +33,10 @@ You can contact me via E-MAIL: quackderbruchpilot05@gmail.com, via GitHub (Quack
 sasl.messageWindow	(
 	500, 500, 500, 500, "STE-C 55X Autopilot Changelog",
 		
-	"v0.5.0-beta (current) \n ----------------------------------------------------------- \n -	added settings tab \n 		-	you can now select whether you want to start with or without the AP           showing up \n \n		-	added legal advice \n \n -	added license tab to see license in Sim \n -	added changelog tab to see changelog \n \n \n v0.4.0-beta \n ----------------------------------------------------------- \n -	initial public beta release \n \n \n v0.3.0-alpha \n ----------------------------------------------------------- \n -	initial alpha release for private alpha test",
+	"v0.5.1-beta (current) \n ----------------------------------------------------------- \n -	investigated 'turnoff on CDI change' \n 		-	see manual 'quicktipp/FAQ' section \n \n -	implemented trim annunciation as described in POH \n 		-	DISCLAIMER: Yoke trimswitch is being ignored because of XPlane limitation \n 		-	see manual for new settings option \n \n \n v0.5.0-beta \n ----------------------------------------------------------- \n -	added settings tab \n 		-	you can now select whether you want to start with or without the AP           showing up \n \n		-	added legal advice \n \n -	added license tab to see license in Sim \n -	added changelog tab to see changelog \n \n \n v0.4.0-beta \n ----------------------------------------------------------- \n -	initial public beta release \n \n \n v0.3.0-alpha \n ----------------------------------------------------------- \n -	initial alpha release for private alpha test",
 		
 	1,"Close", wnd_changelog_close
 )
+
+
+-- -	implemented trim annunciation as described in POH \n		-	Disclaimer: Yoke Trimswitch is being ignored because of XPlane limitation \n		-	see manual for new settings option
